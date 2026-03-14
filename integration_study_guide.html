@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Integration — Math 101 Study Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1a2744;
+    --navy-mid: #243358;
+    --teal: #1a7a8a;
+    --teal-light: #2a9aaa;
+    --teal-pale: #e6f4f6;
+    --accent: #c8832a;
+    --bg: #faf8f4;
+    --bg-card: #ffffff;
+    --text: #2c2c2c;
+    --text-muted: #666;
+    --border: #e0dbd2;
+    --green: #1e6e4c;
+    --green-bg: #eaf6f0;
+    --red: #8b2020;
+    --red-bg: #fdf0f0;
+    --purple: #5a2d82;
+    --purple-bg: #f4eef9;
+    --sidebar-w: 260px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 16px;
+    line-height: 1.65;
+  }
+
+  /* ── SIDEBAR ── */
+  #sidebar {
+    position: fixed;
+    top: 0; left: 0;
+    width: var(--sidebar-w);
+    height: 100vh;
+    background: var(--navy);
+    overflow-y: auto;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 2rem;
+  }
+
+  #sidebar-header {
+    background: var(--navy-mid);
+    padding: 1.4rem 1.2rem 1.2rem;
+    border-bottom: 2px solid var(--teal);
+  }
+
+  #sidebar-header .label {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--teal-light);
+    text-transform: uppercase;
+  }
+
+  #sidebar-header h1 {
+    font-family: 'Lora', serif;
+    font-size: 1.15rem;
+    color: #fff;
+    margin-top: 0.3rem;
+    line-height: 1.35;
+  }
+
+  nav ul {
+    list-style: none;
+    padding: 0.8rem 0;
+  }
+
+  nav ul li a {
+    display: block;
+    padding: 0.45rem 1.2rem;
+    color: rgba(255,255,255,0.72);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 400;
+    transition: all 0.18s;
+    border-left: 3px solid transparent;
+  }
+
+  nav ul li a:hover {
+    color: #fff;
+    background: rgba(255,255,255,0.07);
+    border-left-color: var(--teal-light);
+  }
+
+  nav ul li a.active {
+    color: #fff;
+    background: rgba(26,122,138,0.25);
+    border-left-color: var(--teal-light);
+    font-weight: 600;
+  }
+
+  nav .nav-section {
+    padding: 0.9rem 1.2rem 0.3rem;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+  }
+
+  /* ── MAIN CONTENT ── */
+  #main {
+    margin-left: var(--sidebar-w);
+    padding: 0 2.5rem 4rem;
+    max-width: 960px;
+  }
+
+  /* ── TOP BANNER ── */
+  #banner {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 50%, #1a5a6a 100%);
+    padding: 3rem 2.5rem 2.5rem;
+    margin: 0 -2.5rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  #banner::before {
+    content: '∫';
+    position: absolute;
+    right: 3rem; top: -1rem;
+    font-size: 12rem;
+    color: rgba(255,255,255,0.04);
+    font-family: 'Lora', serif;
+    pointer-events: none;
+  }
+
+  #banner h2 {
+    font-family: 'Lora', serif;
+    font-size: 2.4rem;
+    color: #fff;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  #banner p {
+    color: rgba(255,255,255,0.72);
+    margin-top: 0.6rem;
+    font-size: 1rem;
+    max-width: 520px;
+  }
+
+  .badge-row {
+    display: flex;
+    gap: 0.6rem;
+    margin-top: 1.2rem;
+    flex-wrap: wrap;
+  }
+
+  .badge {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.85);
+    border-radius: 20px;
+    padding: 0.25rem 0.85rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+
+  /* ── SECTIONS ── */
+  section {
+    margin-bottom: 3.5rem;
+  }
+
+  .section-title {
+    font-family: 'Lora', serif;
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 0.3rem;
+    padding-bottom: 0.7rem;
+    border-bottom: 2px solid var(--teal);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .section-title .icon {
+    font-size: 1.3rem;
+  }
+
+  .section-sub {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.4rem 1.6rem;
+    margin-bottom: 1.2rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+
+  .card h3 {
+    font-family: 'Lora', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 0.7rem;
+  }
+
+  .card h4 {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--teal);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 1rem 0 0.4rem;
+  }
+
+  .card ul {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  .card ul li {
+    padding: 0.2rem 0 0.2rem 1.4rem;
+    position: relative;
+    font-size: 0.92rem;
+  }
+
+  .card ul li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--teal);
+    font-size: 0.8rem;
+    top: 0.3rem;
+  }
+
+  /* ── TOPIC GRID ── */
+  .topic-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1rem;
+  }
+
+  .topic-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--teal);
+    border-radius: 8px;
+    padding: 1.1rem 1.3rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.045);
+  }
+
+  .topic-card h3 {
+    font-family: 'Lora', serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 0.6rem;
+  }
+
+  .topic-card ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .topic-card ul li {
+    font-size: 0.83rem;
+    color: var(--text-muted);
+    padding: 0.18rem 0 0.18rem 1.1rem;
+    position: relative;
+  }
+
+  .topic-card ul li::before {
+    content: '·';
+    position: absolute;
+    left: 0.3rem;
+    color: var(--teal);
+    font-size: 1.1rem;
+    line-height: 1.1;
+  }
+
+  /* ── FORMULA TABLES ── */
+  .formula-group {
+    margin-bottom: 1.8rem;
+  }
+
+  .formula-group h3 {
+    font-family: 'Lora', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 0.6rem;
+  }
+
+  table.formula-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  table.formula-table thead tr {
+    background: var(--teal);
+    color: #fff;
+  }
+
+  table.formula-table thead th {
+    padding: 0.6rem 1rem;
+    text-align: left;
+    font-weight: 700;
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  table.formula-table tbody tr {
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-card);
+  }
+
+  table.formula-table tbody tr:nth-child(even) {
+    background: var(--teal-pale);
+  }
+
+  table.formula-table tbody td {
+    padding: 0.6rem 1rem;
+    vertical-align: top;
+  }
+
+  table.formula-table tbody td:first-child {
+    font-weight: 600;
+    color: var(--navy);
+    width: 38%;
+  }
+
+  table.formula-table tbody td:last-child {
+    font-family: 'Source Sans 3', sans-serif;
+    color: #222;
+    font-size: 0.92rem;
+  }
+
+  .formula-box {
+    background: #f0f7f9;
+    border-left: 3px solid var(--teal);
+    border-radius: 4px;
+    padding: 0.3rem 0.7rem;
+    display: inline-block;
+    font-weight: 600;
+    color: var(--navy-mid);
+  }
+
+  /* ── WORKED EXAMPLES ── */
+  .example-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+  }
+
+  .example-header {
+    background: var(--navy-mid);
+    color: #fff;
+    padding: 0.9rem 1.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .example-header .ex-num {
+    background: var(--teal);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.75rem;
+    border-radius: 4px;
+    padding: 0.15rem 0.55rem;
+    letter-spacing: 0.05em;
+  }
+
+  .example-header h3 {
+    font-family: 'Lora', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  .example-body {
+    padding: 1.4rem 1.6rem;
+  }
+
+  .step {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.1rem;
+    align-items: flex-start;
+  }
+
+  .step-num {
+    background: var(--teal-pale);
+    color: var(--teal);
+    border: 1.5px solid var(--teal);
+    border-radius: 50%;
+    width: 26px;
+    height: 26px;
+    min-width: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-top: 0.1rem;
+  }
+
+  .step-content {}
+
+  .step-label {
+    font-weight: 700;
+    color: var(--navy);
+    font-size: 0.88rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .step-explain {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    margin-bottom: 0.4rem;
+  }
+
+  .math-display {
+    background: #f5f8fb;
+    border: 1px solid #d5e5ec;
+    border-radius: 6px;
+    padding: 0.55rem 1rem;
+    font-size: 0.96rem;
+    font-weight: 600;
+    color: var(--navy);
+    margin-top: 0.3rem;
+    font-family: 'Source Sans 3', sans-serif;
+    line-height: 1.8;
+  }
+
+  .answer-box {
+    background: var(--green-bg);
+    border: 1.5px solid var(--green);
+    border-radius: 8px;
+    padding: 0.8rem 1.2rem;
+    margin-top: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .answer-box .ans-label {
+    background: var(--green);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.75rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    white-space: nowrap;
+    letter-spacing: 0.05em;
+  }
+
+  .answer-box .ans-val {
+    font-weight: 700;
+    color: var(--green);
+    font-size: 1rem;
+  }
+
+  /* ── PRACTICE PROBLEMS ── */
+  .practice-card {
+    background: var(--purple-bg);
+    border: 1px solid rgba(90,45,130,0.25);
+    border-left: 4px solid var(--purple);
+    border-radius: 8px;
+    padding: 1.1rem 1.4rem;
+    margin-bottom: 0.9rem;
+  }
+
+  .practice-card .ptag {
+    display: inline-block;
+    background: var(--purple);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.15rem 0.55rem;
+    border-radius: 3px;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.5rem;
+  }
+
+  .practice-card .prob-text {
+    font-size: 0.93rem;
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .practice-card .prob-hint {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin-top: 0.3rem;
+    font-style: italic;
+  }
+
+  .no-answer-note {
+    background: #fff8e1;
+    border: 1px solid #f0d060;
+    border-radius: 8px;
+    padding: 0.9rem 1.2rem;
+    font-size: 0.85rem;
+    color: #6b4c00;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+  }
+
+  .practice-section-title {
+    font-family: 'Lora', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--purple);
+    margin: 1.3rem 0 0.6rem;
+    border-bottom: 1px solid rgba(90,45,130,0.2);
+    padding-bottom: 0.3rem;
+  }
+
+  /* ── PITFALLS & TIPS ── */
+  .pitfall-card {
+    background: var(--red-bg);
+    border-left: 4px solid var(--red);
+    border-radius: 0 8px 8px 0;
+    padding: 1rem 1.3rem;
+    margin-bottom: 0.9rem;
+  }
+
+  .pitfall-card .pit-label {
+    font-weight: 700;
+    color: var(--red);
+    font-size: 0.85rem;
+    margin-bottom: 0.35rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .pitfall-card p {
+    font-size: 0.88rem;
+    color: #5c2020;
+  }
+
+  .tip-card {
+    background: var(--green-bg);
+    border-left: 4px solid var(--green);
+    border-radius: 0 8px 8px 0;
+    padding: 1rem 1.3rem;
+    margin-bottom: 0.9rem;
+  }
+
+  .tip-card .tip-label {
+    font-weight: 700;
+    color: var(--green);
+    font-size: 0.85rem;
+    margin-bottom: 0.35rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .tip-card p {
+    font-size: 0.88rem;
+    color: #1a4a35;
+  }
+
+  /* ── UTILITIES ── */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  @media (max-width: 700px) {
+    .two-col { grid-template-columns: 1fr; }
+    .topic-grid { grid-template-columns: 1fr; }
+  }
+
+  sup, sub { font-size: 0.72em; }
+
+  /* scrollbar */
+  #sidebar::-webkit-scrollbar { width: 4px; }
+  #sidebar::-webkit-scrollbar-track { background: transparent; }
+  #sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
+</style>
+</head>
+<body>
+
+<!-- ══ SIDEBAR ══ -->
+<nav id="sidebar">
+  <div id="sidebar-header">
+    <div class="label">Math 101</div>
+    <h1>Integration<br>Study Guide</h1>
+  </div>
+  <ul>
+    <li class="nav-section">Sections</li>
+    <li><a href="#overview" class="nav-link">📋 Topic Overview</a></li>
+    <li><a href="#formulas" class="nav-link">📐 Formula Cheat Sheet</a></li>
+    <li><a href="#examples" class="nav-link">✏️ Worked Examples</a></li>
+    <li><a href="#practice" class="nav-link">🧩 Practice Problems</a></li>
+    <li><a href="#pitfalls" class="nav-link">⚠️ Pitfalls &amp; Tips</a></li>
+    <li class="nav-section">Quick Jump</li>
+    <li><a href="#ftc">FTC Parts I &amp; II</a></li>
+    <li><a href="#ibyparts">Integration by Parts</a></li>
+    <li><a href="#trig-sub">Trig Substitution</a></li>
+    <li><a href="#partial-frac">Partial Fractions</a></li>
+    <li><a href="#improper">Improper Integrals</a></li>
+    <li><a href="#applications">Applications</a></li>
+  </ul>
+</nav>
+
+<!-- ══ MAIN ══ -->
+<div id="main">
+
+  <!-- BANNER -->
+  <div id="banner">
+    <h2>Integration — Complete<br>Study Guide</h2>
+    <p>Covering all topics from your Math 101 notes. Theorems, formulas, worked examples, and practice problems.</p>
+    <div class="badge-row">
+      <span class="badge">FTC I &amp; II</span>
+      <span class="badge">Integration by Parts</span>
+      <span class="badge">Trig Substitution</span>
+      <span class="badge">Partial Fractions</span>
+      <span class="badge">Improper Integrals</span>
+      <span class="badge">Applications</span>
+    </div>
+  </div>
+
+  <!-- ══ 1. TOPIC OVERVIEW ══ -->
+  <section id="overview">
+    <h2 class="section-title"><span class="icon">📋</span> Topic Overview</h2>
+    <p class="section-sub">Every main topic and sub-topic from your notes, grouped by theme.</p>
+
+    <div class="topic-grid">
+
+      <div class="topic-card" id="ftc">
+        <h3>Fundamental Theorem of Calculus</h3>
+        <ul>
+          <li>FTC Part I — defining F(x) = ∫<sub>a</sub><sup>x</sup> f(t) dt</li>
+          <li>FTC Part II — evaluating with antiderivatives</li>
+          <li>Differentiating integrals with variable limits</li>
+          <li>Chain rule + FTC (composite upper limits)</li>
+          <li>Mean Value Theorem for definite integrals</li>
+          <li>Proof of FTC Part I</li>
+        </ul>
+      </div>
+
+      <div class="topic-card">
+        <h3>Average Value of a Function</h3>
+        <ul>
+          <li>Definition: f<sub>avg</sub> = (1/(b−a)) ∫<sub>a</sub><sup>b</sup> f(x) dx</li>
+          <li>Geometric interpretation as area ÷ width</li>
+          <li>Computing average of linear, polynomial, trig functions</li>
+        </ul>
+      </div>
+
+      <div class="topic-card" id="ibyparts">
+        <h3>Integration by Parts</h3>
+        <ul>
+          <li>Formula: ∫ u dv = uv − ∫ v du</li>
+          <li>LIATE rule for choosing u</li>
+          <li>∫ x cos x dx, ∫ ln x dx</li>
+          <li>∫ x<sup>n</sup> log x dx, ∫ x<sup>2</sup> e<sup>x</sup> dx</li>
+          <li>∫ sec<sup>3</sup> x dx, ∫ e<sup>ax</sup> sin bx dx</li>
+          <li>Cyclic integrals (solve for I)</li>
+        </ul>
+      </div>
+
+      <div class="topic-card">
+        <h3>Substitution Rule</h3>
+        <ul>
+          <li>u-substitution: ∫ f(g(x)) g'(x) dx = ∫ f(u) du</li>
+          <li>Standard substitutions for composite functions</li>
+          <li>Rational substitution (z<sup>2</sup> = linear expression)</li>
+          <li>∫ x<sup>2</sup> sin x<sup>3</sup> dx, ∫ (1−1/x<sup>2</sup>) e<sup>x+1/x</sup> dx</li>
+        </ul>
+      </div>
+
+      <div class="topic-card" id="trig-sub">
+        <h3>Trigonometric Substitution</h3>
+        <ul>
+          <li>x = a sin θ for √(a<sup>2</sup> − x<sup>2</sup>)</li>
+          <li>x = a tan θ for √(a<sup>2</sup> + x<sup>2</sup>)</li>
+          <li>x = a sec θ for √(x<sup>2</sup> − a<sup>2</sup>)</li>
+          <li>Worked: ∫ dx/(a<sup>2</sup>+x<sup>2</sup>)<sup>2</sup></li>
+        </ul>
+      </div>
+
+      <div class="topic-card">
+        <h3>Standard Integrals</h3>
+        <ul>
+          <li>∫ 1/(a<sup>2</sup>+x<sup>2</sup>) dx = (1/a) tan<sup>−1</sup>(x/a) + C</li>
+          <li>∫ 1/(a<sup>2</sup>−x<sup>2</sup>) dx = (1/2a) log|(a+x)/(a−x)| + C</li>
+          <li>∫ 1/√(a<sup>2</sup>−x<sup>2</sup>) dx = sin<sup>−1</sup>(x/a) + C</li>
+          <li>∫ 1/√(x<sup>2</sup>+a<sup>2</sup>) dx = log(x+√(x<sup>2</sup>+a<sup>2</sup>)) + C</li>
+          <li>∫ √(x<sup>2</sup>±a<sup>2</sup>) dx forms</li>
+        </ul>
+      </div>
+
+      <div class="topic-card">
+        <h3>Integrals Reducible to Standard Form</h3>
+        <ul>
+          <li>∫ 1/(ax<sup>2</sup>+bx+c) dx — complete the square</li>
+          <li>∫ (mx+e)/(ax<sup>2</sup>+bx+c) dx — split into p(2ax+b)+q</li>
+          <li>∫ 1/√(ax<sup>2</sup>+bx+c) dx</li>
+          <li>∫ (mx+e)/√(ax<sup>2</sup>+bx+c) dx</li>
+          <li>∫ √(ax<sup>2</sup>+bx+c) dx</li>
+          <li>∫ (mx+e)√(ax<sup>2</sup>+bx+c) dx</li>
+        </ul>
+      </div>
+
+      <div class="topic-card" id="partial-frac">
+        <h3>Partial Fractions</h3>
+        <ul>
+          <li>Linear factors — (x−r)<sup>m</sup> decomposition</li>
+          <li>Quadratic factors — (x<sup>2</sup>+px+q)<sup>n</sup> decomposition</li>
+          <li>Long division when degree of numerator ≥ denominator</li>
+          <li>Solving for constants by substitution or equating coefficients</li>
+        </ul>
+      </div>
+
+      <div class="topic-card" id="improper">
+        <h3>Improper Integrals</h3>
+        <ul>
+          <li>Type I — infinite limits of integration</li>
+          <li>Type II — unbounded integrand on [a, b]</li>
+          <li>Convergence: limit is finite</li>
+          <li>Divergence: limit is ±∞ or does not exist</li>
+          <li>Splitting at a point for doubly-infinite integrals</li>
+        </ul>
+      </div>
+
+      <div class="topic-card" id="applications">
+        <h3>Applications of Definite Integrals</h3>
+        <ul>
+          <li>Area between two curves</li>
+          <li>Volume by Disk method (rotation about x- or y-axis)</li>
+          <li>Volume by Washer method</li>
+          <li>Arc length of plane curves (Cartesian &amp; parametric)</li>
+          <li>Surface area of solids of revolution</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══ 2. FORMULA CHEAT SHEET ══ -->
+  <section id="formulas">
+    <h2 class="section-title"><span class="icon">📐</span> Formula Cheat Sheet</h2>
+    <p class="section-sub">Every essential formula from your notes. Use this as your final review before the exam.</p>
+
+    <!-- FTC -->
+    <div class="formula-group">
+      <h3>Fundamental Theorem of Calculus</h3>
+      <table class="formula-table">
+        <thead><tr><th>Concept</th><th>Formula / Statement</th></tr></thead>
+        <tbody>
+          <tr><td>FTC Part I (Definition)</td><td>If F(x) = ∫<sub>a</sub><sup>x</sup> f(t) dt, then F'(x) = f(x)</td></tr>
+          <tr><td>FTC Part I (Derivative of integral)</td><td>d/dx ∫<sub>a</sub><sup>x</sup> f(t) dt = f(x)</td></tr>
+          <tr><td>FTC Part II (Evaluation Theorem)</td><td>∫<sub>a</sub><sup>b</sup> f(x) dx = F(b) − F(a), where F' = f</td></tr>
+          <tr><td>Chain Rule + FTC (upper limit g(x))</td><td>d/dx ∫<sub>a</sub><sup>g(x)</sup> f(t) dt = f(g(x)) · g'(x)</td></tr>
+          <tr><td>Flipped limits</td><td>d/dx ∫<sub>x</sub><sup>b</sup> f(t) dt = −f(x)</td></tr>
+          <tr><td>Mean Value Theorem for integrals</td><td>f(c) = (1/(b−a)) ∫<sub>a</sub><sup>b</sup> f(x) dx for some c ∈ [a,b]</td></tr>
+          <tr><td>Average value of f on [a,b]</td><td>f<sub>avg</sub> = (1/(b−a)) ∫<sub>a</sub><sup>b</sup> f(x) dx</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Integration Techniques -->
+    <div class="formula-group">
+      <h3>Integration Techniques</h3>
+      <table class="formula-table">
+        <thead><tr><th>Technique</th><th>Formula / Rule</th></tr></thead>
+        <tbody>
+          <tr><td>Integration by Parts</td><td>∫ u dv = uv − ∫ v du</td></tr>
+          <tr><td>Integration by Parts (expanded)</td><td>∫ u·v dx = u ∫v dx − ∫[du/dx · ∫v dx] dx</td></tr>
+          <tr><td>u-Substitution</td><td>∫ f(g(x)) g'(x) dx = ∫ f(u) du, u = g(x)</td></tr>
+          <tr><td>Trig sub: √(a<sup>2</sup>−x<sup>2</sup>)</td><td>Let x = a sin θ → a<sup>2</sup>−x<sup>2</sup> = a<sup>2</sup>cos<sup>2</sup>θ</td></tr>
+          <tr><td>Trig sub: √(a<sup>2</sup>+x<sup>2</sup>)</td><td>Let x = a tan θ → a<sup>2</sup>+x<sup>2</sup> = a<sup>2</sup>sec<sup>2</sup>θ</td></tr>
+          <tr><td>Trig sub: √(x<sup>2</sup>−a<sup>2</sup>)</td><td>Let x = a sec θ → x<sup>2</sup>−a<sup>2</sup> = a<sup>2</sup>tan<sup>2</sup>θ</td></tr>
+          <tr><td>Linear numerator split</td><td>(mx+e)/(ax<sup>2</sup>+bx+c) = p(2ax+b)/(ax<sup>2</sup>+bx+c) + q/(ax<sup>2</sup>+bx+c), where 2ap=m, bp+q=e</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Standard Integrals -->
+    <div class="formula-group">
+      <h3>Standard Integrals Table</h3>
+      <table class="formula-table">
+        <thead><tr><th>Integral</th><th>Result</th></tr></thead>
+        <tbody>
+          <tr><td>∫ 1/(a<sup>2</sup>+x<sup>2</sup>) dx</td><td>(1/a) tan<sup>−1</sup>(x/a) + C</td></tr>
+          <tr><td>∫ 1/(a<sup>2</sup>−x<sup>2</sup>) dx</td><td>(1/2a) log|(a+x)/(a−x)| + C</td></tr>
+          <tr><td>∫ 1/(x<sup>2</sup>−a<sup>2</sup>) dx</td><td>(1/2a) log|(x−a)/(x+a)| + C</td></tr>
+          <tr><td>∫ 1/√(a<sup>2</sup>−x<sup>2</sup>) dx</td><td>sin<sup>−1</sup>(x/a) + C</td></tr>
+          <tr><td>∫ 1/√(x<sup>2</sup>+a<sup>2</sup>) dx</td><td>log(x + √(x<sup>2</sup>+a<sup>2</sup>)) + C</td></tr>
+          <tr><td>∫ 1/√(x<sup>2</sup>−a<sup>2</sup>) dx</td><td>log(x + √(x<sup>2</sup>−a<sup>2</sup>)) + C</td></tr>
+          <tr><td>∫ √(x<sup>2</sup>+a<sup>2</sup>) dx</td><td>(x/2)√(x<sup>2</sup>+a<sup>2</sup>) + (a<sup>2</sup>/2) log(x+√(x<sup>2</sup>+a<sup>2</sup>)) + C</td></tr>
+          <tr><td>∫ √(x<sup>2</sup>−a<sup>2</sup>) dx</td><td>(x/2)√(x<sup>2</sup>−a<sup>2</sup>) − (a<sup>2</sup>/2) log(x+√(x<sup>2</sup>−a<sup>2</sup>)) + C</td></tr>
+          <tr><td>∫ √(a<sup>2</sup>−x<sup>2</sup>) dx</td><td>(x/2)√(a<sup>2</sup>−x<sup>2</sup>) + (a<sup>2</sup>/2) sin<sup>−1</sup>(x/a) + C</td></tr>
+          <tr><td>∫ ln x dx</td><td>x ln x − x + C</td></tr>
+          <tr><td>∫ x cos x dx</td><td>x sin x + cos x + C</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Partial Fractions -->
+    <div class="formula-group">
+      <h3>Partial Fractions Decomposition Rules</h3>
+      <table class="formula-table">
+        <thead><tr><th>Factor in denominator</th><th>Partial fraction terms to assign</th></tr></thead>
+        <tbody>
+          <tr><td>Linear: (x−r)<sup>m</sup></td><td>A<sub>1</sub>/(x−r) + A<sub>2</sub>/(x−r)<sup>2</sup> + ··· + A<sub>m</sub>/(x−r)<sup>m</sup></td></tr>
+          <tr><td>Irreducible quadratic: (x<sup>2</sup>+px+q)<sup>n</sup></td><td>(B<sub>1</sub>x+C<sub>1</sub>)/(x<sup>2</sup>+px+q) + ··· + (B<sub>n</sub>x+C<sub>n</sub>)/(x<sup>2</sup>+px+q)<sup>n</sup></td></tr>
+          <tr><td>When deg(numerator) ≥ deg(denominator)</td><td>Do polynomial long division first, then decompose the remainder</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Improper Integrals -->
+    <div class="formula-group">
+      <h3>Improper Integrals</h3>
+      <table class="formula-table">
+        <thead><tr><th>Type</th><th>Definition / Test</th></tr></thead>
+        <tbody>
+          <tr><td>Type I (infinite upper limit)</td><td>∫<sub>a</sub><sup>∞</sup> f(x) dx = lim<sub>t→∞</sub> ∫<sub>a</sub><sup>t</sup> f(x) dx</td></tr>
+          <tr><td>Type I (infinite lower limit)</td><td>∫<sub>−∞</sub><sup>b</sup> f(x) dx = lim<sub>t→−∞</sub> ∫<sub>t</sub><sup>b</sup> f(x) dx</td></tr>
+          <tr><td>Type I (doubly infinite)</td><td>∫<sub>−∞</sub><sup>∞</sup> f(x) dx = ∫<sub>−∞</sub><sup>a</sup> f(x) dx + ∫<sub>a</sub><sup>∞</sup> f(x) dx</td></tr>
+          <tr><td>Convergent</td><td>Limit exists and is finite</td></tr>
+          <tr><td>Divergent</td><td>Limit is ±∞ or does not exist</td></tr>
+          <tr><td>Classic result</td><td>∫<sub>0</sub><sup>∞</sup> dx/(1+x<sup>2</sup>) = π/2 (converges)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Applications -->
+    <div class="formula-group">
+      <h3>Applications of Definite Integrals</h3>
+      <table class="formula-table">
+        <thead><tr><th>Application</th><th>Formula</th></tr></thead>
+        <tbody>
+          <tr><td>Area between y=f(x) and y=g(x), f ≥ g</td><td>A = ∫<sub>a</sub><sup>b</sup> [f(x) − g(x)] dx</td></tr>
+          <tr><td>Volume by Disk (rotation about x-axis)</td><td>V = ∫<sub>a</sub><sup>b</sup> π [R(x)]<sup>2</sup> dx</td></tr>
+          <tr><td>Volume by Washer (about x-axis)</td><td>V = ∫<sub>a</sub><sup>b</sup> π{[R(x)]<sup>2</sup> − [r(x)]<sup>2</sup>} dx</td></tr>
+          <tr><td>Volume (rotation about y-axis)</td><td>V = ∫<sub>c</sub><sup>d</sup> π [R(y)]<sup>2</sup> dy</td></tr>
+          <tr><td>Arc length of y = f(x)</td><td>L = ∫<sub>a</sub><sup>b</sup> √(1 + [f'(x)]<sup>2</sup>) dx</td></tr>
+          <tr><td>Arc length (parametric x=f(t), y=g(t))</td><td>L = ∫<sub>a</sub><sup>b</sup> √([dx/dt]<sup>2</sup> + [dy/dt]<sup>2</sup>) dt</td></tr>
+          <tr><td>Surface area (rotation about x-axis, y ≥ 0)</td><td>S = ∫<sub>a</sub><sup>b</sup> 2πy √([dx/dt]<sup>2</sup> + [dy/dt]<sup>2</sup>) dt</td></tr>
+          <tr><td>Surface area (rotation about y-axis, x ≥ 0)</td><td>S = ∫<sub>a</sub><sup>b</sup> 2πx √([dx/dt]<sup>2</sup> + [dy/dt]<sup>2</sup>) dt</td></tr>
+          <tr><td>Volume of sphere (radius a)</td><td>V = (4/3) π a<sup>3</sup></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </section>
+
+  <!-- ══ 3. WORKED EXAMPLES ══ -->
+  <section id="examples">
+    <h2 class="section-title"><span class="icon">✏️</span> Worked Examples</h2>
+    <p class="section-sub">Five of the hardest problems from your notes, solved step by step.</p>
+
+    <!-- Example 1 -->
+    <div class="example-card">
+      <div class="example-header">
+        <span class="ex-num">EX 1</span>
+        <h3>FTC + Chain Rule — Find dy/dx if y = ∫<sub>1</sub><sup>x²</sup> cos t dt</h3>
+      </div>
+      <div class="example-body">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-label">Identify the structure</div>
+            <div class="step-explain">The upper limit is x<sup>2</sup>, not x. This means y is a composite function. Let u = x<sup>2</sup>, so y = ∫<sub>1</sub><sup>u</sup> cos t dt.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-label">Apply the Chain Rule</div>
+            <div class="step-explain">dy/dx = (dy/du) · (du/dx). By FTC Part I, dy/du = cos u.</div>
+            <div class="math-display">dy/dx = (d/du ∫<sub>1</sub><sup>u</sup> cos t dt) · (du/dx) = cos u · du/dx</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-label">Substitute back u = x²</div>
+            <div class="step-explain">du/dx = 2x, and cos u = cos(x<sup>2</sup>).</div>
+            <div class="math-display">dy/dx = cos(x<sup>2</sup>) · 2x = 2x cos(x<sup>2</sup>)</div>
+          </div>
+        </div>
+        <div class="answer-box"><span class="ans-label">ANSWER</span><span class="ans-val">dy/dx = 2x cos(x<sup>2</sup>)</span></div>
+      </div>
+    </div>
+
+    <!-- Example 2 -->
+    <div class="example-card">
+      <div class="example-header">
+        <span class="ex-num">EX 2</span>
+        <h3>Integration by Parts — Evaluate ∫ ln x dx</h3>
+      </div>
+      <div class="example-body">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-label">Choose u and dv</div>
+            <div class="step-explain">Write ∫ ln x · 1 dx. By the LIATE rule, choose u = ln x (logarithm) and dv = dx.</div>
+            <div class="math-display">u = ln x &nbsp;&nbsp;→&nbsp;&nbsp; du = (1/x) dx <br>dv = dx &nbsp;&nbsp;→&nbsp;&nbsp; v = x</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-label">Apply the formula ∫ u dv = uv − ∫ v du</div>
+            <div class="math-display">∫ ln x dx = (ln x)(x) − ∫ x · (1/x) dx = x ln x − ∫ 1 dx</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-label">Evaluate the remaining integral</div>
+            <div class="math-display">= x ln x − x + C</div>
+          </div>
+        </div>
+        <div class="answer-box"><span class="ans-label">ANSWER</span><span class="ans-val">∫ ln x dx = x ln x − x + C</span></div>
+      </div>
+    </div>
+
+    <!-- Example 3 -->
+    <div class="example-card">
+      <div class="example-header">
+        <span class="ex-num">EX 3</span>
+        <h3>Trig Substitution — Evaluate ∫ dx / (a<sup>2</sup>+x<sup>2</sup>)<sup>2</sup></h3>
+      </div>
+      <div class="example-body">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-label">Choose the substitution</div>
+            <div class="step-explain">The form a<sup>2</sup>+x<sup>2</sup> calls for x = a tan θ, dx = a sec<sup>2</sup>θ dθ.</div>
+            <div class="math-display">a<sup>2</sup> + x<sup>2</sup> = a<sup>2</sup> + a<sup>2</sup> tan<sup>2</sup>θ = a<sup>2</sup>(1 + tan<sup>2</sup>θ) = a<sup>2</sup> sec<sup>2</sup>θ</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-label">Substitute and simplify</div>
+            <div class="math-display">∫ dx/(a<sup>2</sup>+x<sup>2</sup>)<sup>2</sup> = ∫ [a sec<sup>2</sup>θ dθ] / [a<sup>4</sup> sec<sup>4</sup>θ] = (1/a<sup>3</sup>) ∫ cos<sup>2</sup>θ dθ</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-label">Use the half-angle identity: cos<sup>2</sup>θ = (1 + cos 2θ)/2</div>
+            <div class="math-display">= (1/2a<sup>3</sup>) ∫ (1 + cos 2θ) dθ = (1/2a<sup>3</sup>) [θ + (1/2) sin 2θ] + C</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <div class="step-label">Convert back to x</div>
+            <div class="step-explain">Since x = a tan θ, we have θ = tan<sup>−1</sup>(x/a). Also sin 2θ = 2 sin θ cos θ. From the right triangle: sin θ = x/√(a<sup>2</sup>+x<sup>2</sup>), cos θ = a/√(a<sup>2</sup>+x<sup>2</sup>).</div>
+            <div class="math-display">(1/2) sin 2θ = sin θ cos θ = x/√(a<sup>2</sup>+x<sup>2</sup>) · a/√(a<sup>2</sup>+x<sup>2</sup>) = ax/(a<sup>2</sup>+x<sup>2</sup>)</div>
+          </div>
+        </div>
+        <div class="answer-box"><span class="ans-label">ANSWER</span><span class="ans-val">(1/2a<sup>3</sup>) [tan<sup>−1</sup>(x/a) + ax/(a<sup>2</sup>+x<sup>2</sup>)] + C</span></div>
+      </div>
+    </div>
+
+    <!-- Example 4 -->
+    <div class="example-card">
+      <div class="example-header">
+        <span class="ex-num">EX 4</span>
+        <h3>Partial Fractions — Evaluate ∫ (5x−3) / [(x+1)(x−3)] dx</h3>
+      </div>
+      <div class="example-body">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-label">Write the partial fraction decomposition</div>
+            <div class="math-display">(5x−3) / [(x+1)(x−3)] = A/(x+1) + B/(x−3)</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-label">Clear denominators</div>
+            <div class="math-display">5x − 3 = A(x−3) + B(x+1)</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-label">Find A and B by substitution</div>
+            <div class="step-explain">Put x = 3: 15−3 = 4B → B = 3. Put x = −1: −5−3 = −4A → A = 2.</div>
+            <div class="math-display">A = 2,&nbsp;&nbsp; B = 3</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <div class="step-label">Integrate term by term</div>
+            <div class="math-display">I = 2 ∫ 1/(x+1) dx + 3 ∫ 1/(x−3) dx = 2 ln|x+1| + 3 ln|x−3| + C</div>
+          </div>
+        </div>
+        <div class="answer-box"><span class="ans-label">ANSWER</span><span class="ans-val">2 ln|x+1| + 3 ln|x−3| + C</span></div>
+      </div>
+    </div>
+
+    <!-- Example 5 -->
+    <div class="example-card">
+      <div class="example-header">
+        <span class="ex-num">EX 5</span>
+        <h3>Washer Method — Volume: y = x<sup>2</sup>+1 and y = −x+3 rotated about x-axis</h3>
+      </div>
+      <div class="example-body">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-label">Find intersection points</div>
+            <div class="step-explain">Set x<sup>2</sup>+1 = 3−x → x<sup>2</sup>+x−2 = 0 → (x+2)(x−1) = 0.</div>
+            <div class="math-display">x = −2 and x = 1</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-label">Identify outer and inner radii</div>
+            <div class="step-explain">On [−2, 1], check which function is on top: at x = 0, y = 1 for the parabola and y = 3 for the line. So R(x) = −x+3 (outer), r(x) = x<sup>2</sup>+1 (inner).</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-label">Apply Washer formula V = ∫ π{[R(x)]² − [r(x)]²} dx</div>
+            <div class="math-display">V = π ∫<sub>−2</sub><sup>1</sup> [(−x+3)<sup>2</sup> − (x<sup>2</sup>+1)<sup>2</sup>] dx</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <div class="step-label">Expand and integrate</div>
+            <div class="step-explain">Expand the squares, combine like terms, then integrate. From your notes the answer is:</div>
+            <div class="math-display">V = 117π/5</div>
+          </div>
+        </div>
+        <div class="answer-box"><span class="ans-label">ANSWER</span><span class="ans-val">V = 117π/5</span></div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ══ 4. PRACTICE PROBLEMS ══ -->
+  <section id="practice">
+    <h2 class="section-title"><span class="icon">🧩</span> Practice Problems</h2>
+    <p class="section-sub">3 new problems per topic at exam difficulty. Attempt them yourself — post your work to check!</p>
+
+    <div class="no-answer-note">
+      ⚠️ <strong>Answers intentionally withheld.</strong> Work through each problem on your own first. Post your steps and I'll check your work and give targeted feedback!
+    </div>
+
+    <div class="practice-section-title">Fundamental Theorem of Calculus</div>
+
+    <div class="practice-card">
+      <span class="ptag">FTC</span>
+      <div class="prob-text">P1. Find dy/dx if y = ∫<sub>2</sub><sup>x³</sup> sin<sup>2</sup>(t) dt.</div>
+      <div class="prob-hint">Hint: The upper limit is x<sup>3</sup>. You'll need FTC Part I plus the chain rule.</div>
+    </div>
+
+    <div class="practice-card">
+      <span class="ptag">FTC</span>
+      <div class="prob-text">P2. If F(x) = ∫<sub>0</sub><sup>x</sup> (t<sup>2</sup> − 4t + 3) dt, find all values of x where F has a local minimum on [0, 4].</div>
+      <div class="prob-hint">Hint: F'(x) = f(x). Set F'(x) = 0 and use the first derivative test.</div>
+    </div>
+
+    <div class="practice-card">
+      <span class="ptag">AVG VALUE</span>
+      <div class="prob-text">P3. Find the average value of f(x) = x<sup>2</sup> − 2x on the interval [0, 3]. Then find the value c guaranteed by the Mean Value Theorem for integrals.</div>
+      <div class="prob-hint">Hint: Compute (1/3)∫<sub>0</sub><sup>3</sup> f(x) dx, then solve f(c) = that value.</div>
+    </div>
+
+    <div class="practice-section-title">Integration by Parts</div>
+
+    <div class="practice-card">
+      <span class="ptag">IBP</span>
+      <div class="prob-text">P4. Evaluate ∫ x<sup>2</sup> e<sup>x</sup> dx.</div>
+      <div class="prob-hint">Hint: You will need to apply integration by parts twice. Set u = x<sup>2</sup> first.</div>
+    </div>
+
+    <div class="practice-card">
+      <span class="ptag">IBP</span>
+      <div class="prob-text">P5. Evaluate ∫ e<sup>x</sup> sin x dx.</div>
+      <div class="prob-hint">Hint: This is a cyclic IBP. After two applications, you'll have "I = ... − I" on both sides. Solve algebraically for I.</div>
+    </div>
+
+    <div class="practice-card">
+      <span class="ptag">IBP</span>
+      <div class="prob-text">P6. Evaluate ∫ x sec<sup>2</sup>(x) dx.</div>
+      <div class="prob-hint">Hint: Let u = x and dv = sec<sup>2</sup>(x) dx. Recall ∫ sec<sup>2</sup>(x) dx = tan x.</div>
+    </div>
+
+    <div class="practice-section-title">Trig Substitution &amp; Standard Integrals</div>
+
+    <div class="practice-card">
+      <span class="ptag">TRIG SUB</span>
+      <div class="prob-text">P7. Evaluate ∫ √(9 − x<sup>2</sup>) dx.</div>
+      <div class="prob-hint">Hint: Use x = 3 sin θ. After substituting, you'll get ∫ cos<sup>2</sup>θ dθ. Use the half-angle identity, then convert back.</div>
+    </div>
+
+    <div class="practice-card">
+      <span class="ptag">STANDARD</span>
+      <div class="prob-text">P8. Evaluate ∫ dx / (4x<sup>2</sup> + 25).</div>
+      <div class="prob-hint">Hint: Factor out 4 to get it into the form 1/(a<sup>2</sup>+u<sup>2</sup>) and apply the standard arctangent formula.</div>
+    </div>
+
+    <div class="practice-card">
+      <span class="ptag">REDUCIBLE</span>
+      <div class="prob-text">P9. Evaluate ∫ (2x+3) / (x<sup>2</sup>+4x+5) dx.</div>
+      <div class="prob-hint">Hint: Split: 2x+3 = p(2x+4) + q. Find p and q. Then the first part gives a log and the second part gives an arctan after completing the square.</div>
+    </div>
+
+    <div class="practice-section-title">Partial Fractions</div>
+
+    <div class="practice-card">
+      <span class="ptag">PARTIAL FRAC</span>
+      <div class="prob-text">P10. Evaluate ∫ (x<sup>2</sup>+4x+1) / [(x−1)(x+1)(x+3)] dx.</div>
+      <div class="prob-hint">Hint: Decompose into A/(x−1) + B/(x+1) + C/(x+3). Solve for A, B, C by plugging in x = 1, −1, −3.</div>
+    </div>
+
+    <div class="practice-card">
+      <span class="ptag">PARTIAL FRAC</span>
+      <div class="prob-text">P11. Evaluate ∫ (3x+1) / [(x+1)<sup>2</sup>(x+2)] dx.</div>
+      <div class="prob-hint">Hint: Use A/(x+1) + B/(x+1)<sup>2</sup> + C/(x+2). The repeated linear factor requires two terms.</div>
+    </div>
+
+    <div class="practice-card">
+      <span class="ptag">PARTIAL FRAC</span>
+      <div class="prob-text">P12. Evaluate ∫ (2x<sup>3</sup> − 4x<sup>2</sup> − x − 3) / (x<sup>2</sup>−2x−3) dx.</div>
+      <div class="prob-hint">Hint: Degree of numerator (3) ≥ degree of denominator (2), so do polynomial long division first!</div>
+    </div>
+
+    <div class="practice-section-title">Improper Integrals</div>
+
+    <div class="practice-card">
+      <span class="ptag">IMPROPER</span>
+      <div class="prob-text">P13. Determine whether ∫<sub>1</sub><sup>∞</sup> 1/x<sup>2</sup> dx converges or diverges. If it converges, find its value.</div>
+      <div class="prob-hint">Hint: Replace ∞ with t, evaluate the definite integral, then take the limit as t → ∞.</div>
+    </div>
+
+    <div class="practice-card">
+      <span class="ptag">IMPROPER</span>
+      <div class="prob-text">P14. Determine whether ∫<sub>0</sub><sup>4</sup> 1/√(4−x) dx converges or diverges (note the integrand is unbounded at x = 4).</div>
+      <div class="prob-hint">Hint: This is a Type II improper integral. Replace 4 with (4−ε) and take the limit as ε → 0⁺.</div>
+    </div>
+
+    <div class="practice-card">
+      <span class="ptag">IMPROPER</span>
+      <div class="prob-text">P15. Evaluate ∫<sub>−∞</sub><sup>∞</sup> xe<sup>−x²</sup> dx or show it diverges.</div>
+      <div class="prob-hint">Hint: Split at a = 0. For ∫<sub>0</sub><sup>∞</sup>, use u = x<sup>2</sup>. Check if both halves converge independently.</div>
+    </div>
+
+    <div class="practice-section-title">Applications</div>
+
+    <div class="practice-card">
+      <span class="ptag">AREA</span>
+      <div class="prob-text">P16. Find the area of the region enclosed by y = x<sup>3</sup> and y = x.</div>
+      <div class="prob-hint">Hint: Find intersection points (x = −1, 0, 1). The curves cross at x = 0, so split the integral or use symmetry.</div>
+    </div>
+
+    <div class="practice-card">
+      <span class="ptag">VOLUME</span>
+      <div class="prob-text">P17. Find the volume of the solid obtained by rotating the region bounded by y = x<sup>2</sup> and y = 4 about the y-axis.</div>
+      <div class="prob-hint">Hint: Express x as a function of y. Use the disk method with V = ∫<sub>0</sub><sup>4</sup> π [R(y)]<sup>2</sup> dy where R(y) = √y.</div>
+    </div>
+
+    <div class="practice-card">
+      <span class="ptag">ARC LENGTH</span>
+      <div class="prob-text">P18. Set up (but do not evaluate) the arc length integral for y = x<sup>3/2</sup> from x = 0 to x = 4.</div>
+      <div class="prob-hint">Hint: Compute dy/dx = (3/2)x<sup>1/2</sup>, then form L = ∫<sub>0</sub><sup>4</sup> √(1 + 9x/4) dx.</div>
+    </div>
+
+  </section>
+
+  <!-- ══ 5. PITFALLS & TIPS ══ -->
+  <section id="pitfalls">
+    <h2 class="section-title"><span class="icon">⚠️</span> Common Pitfalls &amp; Exam Tips</h2>
+    <p class="section-sub">The most frequent errors students make — and how to avoid them on test day.</p>
+
+    <div class="two-col">
+      <div>
+        <h3 style="font-family:'Lora',serif;font-size:1rem;color:var(--red);margin-bottom:0.8rem;">⛔ Common Pitfalls</h3>
+
+        <div class="pitfall-card">
+          <div class="pit-label">⛔ Forgetting the Chain Rule with FTC</div>
+          <p>When the upper limit is g(x) (not just x), you <em>must</em> multiply by g'(x). Writing d/dx ∫<sub>a</sub><sup>x²</sup> f(t) dt = f(x<sup>2</sup>) misses the factor of 2x.</p>
+        </div>
+
+        <div class="pitfall-card">
+          <div class="pit-label">⛔ Wrong sign when limits are flipped</div>
+          <p>d/dx ∫<sub>x</sub><sup>5</sup> f(t) dt = −f(x). Flipping the limits introduces a negative sign. Missing this is a very common error.</p>
+        </div>
+
+        <div class="pitfall-card">
+          <div class="pit-label">⛔ Bad choice of u in IBP</div>
+          <p>Always use LIATE: Logarithms &gt; Inverse trig &gt; Algebraic &gt; Trig &gt; Exponential. Choosing u = e<sup>x</sup> when x is present usually makes the integral harder, not easier.</p>
+        </div>
+
+        <div class="pitfall-card">
+          <div class="pit-label">⛔ Forgetting + C for indefinite integrals</div>
+          <p>Every indefinite integral needs the constant + C. Losing a mark here is avoidable — make it a habit to write it every single time.</p>
+        </div>
+
+        <div class="pitfall-card">
+          <div class="pit-label">⛔ Skipping long division in partial fractions</div>
+          <p>If deg(numerator) ≥ deg(denominator), you must do polynomial division first before decomposing. Decomposing directly gives wrong results.</p>
+        </div>
+
+        <div class="pitfall-card">
+          <div class="pit-label">⛔ Not converting back from θ to x in trig sub</div>
+          <p>After integrating in θ, always draw the reference right triangle and express sin θ, cos θ, tan θ in terms of x. Leaving the answer in θ is incomplete.</p>
+        </div>
+
+        <div class="pitfall-card">
+          <div class="pit-label">⛔ Assuming an improper integral converges</div>
+          <p>Always take the limit explicitly. ∫<sub>1</sub><sup>∞</sup> 1/x dx diverges (limit → ∞) even though 1/x → 0. Never assume a "shrinking" integrand gives a converging integral.</p>
+        </div>
+
+        <div class="pitfall-card">
+          <div class="pit-label">⛔ Washer vs Disk confusion</div>
+          <p>If the region does NOT touch the axis of rotation, use Washers. If it does touch, use Disks. Confusing these gives π R<sup>2</sup> instead of π(R<sup>2</sup> − r<sup>2</sup>).</p>
+        </div>
+      </div>
+
+      <div>
+        <h3 style="font-family:'Lora',serif;font-size:1rem;color:var(--green);margin-bottom:0.8rem;">✅ Last-Minute Exam Tips</h3>
+
+        <div class="tip-card">
+          <div class="tip-label">✅ Memorise the 6 standard integral formulas</div>
+          <p>The arctan, arcsin, and log forms appear in almost every exam. Write them on your rough paper at the start of the test.</p>
+        </div>
+
+        <div class="tip-card">
+          <div class="tip-label">✅ For any rational integral, check degree first</div>
+          <p>Take 5 seconds at the start: is deg(top) ≥ deg(bottom)? Yes → long divide first. This single habit prevents a whole class of errors.</p>
+        </div>
+
+        <div class="tip-card">
+          <div class="tip-label">✅ Complete the square before integrating</div>
+          <p>For ax<sup>2</sup>+bx+c in the denominator, always complete the square to write it as (x+h)<sup>2</sup> + k<sup>2</sup>. This unlocks the arctan standard form.</p>
+        </div>
+
+        <div class="tip-card">
+          <div class="tip-label">✅ Draw a right triangle for trig substitution</div>
+          <p>Label the sides from your substitution (e.g. x = a tan θ → opposite=x, adjacent=a, hypotenuse=√(a<sup>2</sup>+x<sup>2</sup>)). This makes back-substitution mechanical and error-free.</p>
+        </div>
+
+        <div class="tip-card">
+          <div class="tip-label">✅ Check volume by symmetry when possible</div>
+          <p>If the region is symmetric about the axis of rotation, integrate over half and double. This halves the work and provides a built-in check.</p>
+        </div>
+
+        <div class="tip-card">
+          <div class="tip-label">✅ Verify IBP by differentiating your answer</div>
+          <p>If time allows, differentiate your answer. Since d/dx[F(x)] = f(x), this is the fastest way to catch arithmetic errors without starting over.</p>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+</div><!-- #main -->
+
+<script>
+  // Highlight active nav link based on scroll
+  const sections = document.querySelectorAll('section[id], div[id="ftc"], div[id="ibyparts"], div[id="trig-sub"], div[id="partial-frac"], div[id="improper"], div[id="applications"]');
+  const navLinks = document.querySelectorAll('.nav-link');
+
+  const sectionEls = ['overview','formulas','examples','practice','pitfalls'].map(id => document.getElementById(id)).filter(Boolean);
+
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sectionEls.forEach(sec => {
+      if (window.scrollY >= sec.offsetTop - 120) {
+        current = sec.id;
+      }
+    });
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === '#' + current) {
+        link.classList.add('active');
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
